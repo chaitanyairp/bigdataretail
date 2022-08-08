@@ -1,3 +1,5 @@
+sqoop-list-databases --connect "jdbc:mysql://sandbox-hdp.hortonworks.com:3306" --username root --password hadoop
+
 My versions:
 #Salesorderdetail
 sqoop-job \

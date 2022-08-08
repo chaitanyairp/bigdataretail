@@ -1,3 +1,94 @@
+My versions:
+#Salesorderdetail
+sqoop-job \
+--create loadsalesorderdetail \
+-- import  \
+--connect jdbc:mysql://quickstart:3306/adventureworks \
+--username root \
+--password cloudera \
+--table v_salesorderdetails \
+--as-parquetfile \
+--target-dir /user/cloudera/bigretail/output/stores/sqoop/salesorderdetails  \
+--split-by SalesOrderDetailID \
+--num-mappers 1 \
+--check-column SalesOrderDetailID \
+--incremental append
+
+
+#load credit card
+sqoop job \
+--create loadcreditcard \
+-- import \
+--connect jdbc:mysql://quickstart:3306/adventureworks \
+--username root \
+--table creditcard \
+--as-parquetfile \
+--target-dir /user/cloudera/bigretail/output/stores/sqoop/creditcard  \
+--num-mappers 1 \
+--check-column ModifiedDate \
+--append \
+--incremental lastmodified
+
+#load products
+sqoop-job \
+--create loadproducts \
+-- import  \
+--connect jdbc:mysql://quickstart:3306/adventureworks \
+--username root \
+--password cloudera \
+--table v_product  \
+--as-parquetfile \
+--target-dir /user/cloudera/bigretail/output/stores/sqoop/products  \
+--split-by productId \
+--num-mappers 1 \
+--check-column modifieddate \
+--incremental lastmodified
+
+#load salesorderheader
+sqoop-job \
+--create loadsalesorderheader \
+-- import  \
+--connect jdbc:mysql://quickstart:3306/adventureworks \
+--username root \
+--password cloudera \
+--table v_salesorderheader \
+--as-parquetfile \
+--target-dir /user/cloudera/bigretail/output/stores/sqoop/salesorderheader \
+--split-by SalesOrderID \
+--num-mappers 1 \
+--check-column SalesOrderID \
+--incremental append
+
+#load customers
+sqoop job \
+--create loadcustomers \
+-- import  \
+--connect jdbc:mysql://quickstart:3306/adventureworks \
+--username root \
+--password cloudera \
+--table v_customer  \
+--as-parquetfile \
+--target-dir /user/cloudera/bigretail/output/stores/sqoop/customers  \
+--append \
+--split-by CustomerID \
+--num-mappers 1 \
+--check-column ModifiedDate \
+--incremental lastmodified
+
+
+sqoop job --list
+sqoop exec --loadcustomers
+
+
+
+
+
+
+
+
+
+
+
 # sqoop script to create a new job to load customer data from rdbms to hdfs
 sqoop-job --create loadcustomers -- import  --connect jdbc:mysql://quickstart:3306/adventureworks --username root \
 --table v_customer  --as-parquetfile --target-dir /user/cloudera/bigretail/output/stores/sqoop/customers  --append \

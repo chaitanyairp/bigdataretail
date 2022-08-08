@@ -1,4 +1,22 @@
+Azure:
 sqoop-list-databases --connect "jdbc:mysql://sandbox-hdp.hortonworks.com:3306" --username root --password hadoop
+
+sqoop-job \
+--create loadproducts \
+-- import  \
+--connect "jdbc:mysql://sandbox-hdp.hortonworks.com:3306/adventureworks" \
+--username root \
+--password hadoop \
+--table v_product  \
+--as-parquetfile \
+--target-dir /user/cloudera/bigretail/output/stores/sqoop/products  \
+--split-by productId \
+--num-mappers 1 \
+--check-column modifieddate \
+--incremental lastmodified \
+--driver com.mysql.jdbc.Driver
+
+
 
 My versions:
 #Salesorderdetail

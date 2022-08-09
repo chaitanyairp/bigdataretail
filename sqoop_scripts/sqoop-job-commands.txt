@@ -1,5 +1,12 @@
 Azure:
 sqoop-list-databases --connect "jdbc:mysql://sandbox-hdp.hortonworks.com:3306" --username root --password hadoop
+beeline -u jdbc:hive2://sandbox-hdp.hortonworks.com:10000 -n maria_dev
+
+ssh to root from azureuser:
+ssh root@localhost -p 2222
+
+scp to root from azureuser:
+scp -P 2222 file.txt root@localhost:~/data
 
 sqoop-job \
 --create loadproducts \

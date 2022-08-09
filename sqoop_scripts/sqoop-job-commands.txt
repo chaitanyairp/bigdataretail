@@ -8,6 +8,40 @@ ssh root@localhost -p 2222
 scp to root from azureuser:
 scp -P 2222 file.txt root@localhost:~/data
 
+sandbox:
+1. 
+sqoop-job \
+--create loadsalesorderdetail \
+-- import  \
+--connect "jdbc:mysql://sandbox-hdp.hortonworks.com:3306/adventureworks" \
+--username root \
+--password hadoop \
+--table v_salesorderdetails \
+--as-parquetfile \
+--target-dir /user/cloudera/bigretail/output/stores/sqoop/salesorderdetails \
+--split-by SalesOrderDetailID \
+--num-mappers 1 \
+--check-column SalesOrderDetailID \
+--incremental append \
+--driver com.mysql.jdbc.Driver
+
+2. 
+sqoop job \
+--create loadcreditcard \
+-- import \
+--connect "jdbc:mysql://sandbox-hdp.hortonworks.com:3306/adventureworks" \
+--username root \
+--password hadoop \
+--table creditcard \
+--as-parquetfile \
+--target-dir /user/cloudera/bigretail/output/stores/sqoop/creditcard  \
+--num-mappers 1 \
+--check-column ModifiedDate \
+--append \
+--incremental lastmodified \
+--driver com.mysql.jdbc.Driver
+
+3. 
 sqoop-job \
 --create loadproducts \
 -- import  \
@@ -22,6 +56,41 @@ sqoop-job \
 --check-column modifieddate \
 --incremental lastmodified \
 --driver com.mysql.jdbc.Driver
+
+4. 
+sqoop job \
+--create loadcustomers \
+-- import  \
+--connect "jdbc:mysql://sandbox-hdp.hortonworks.com:3306/adventureworks" \
+--username root \
+--password hadoop \
+--table v_customer  \
+--as-parquetfile \
+--target-dir /user/cloudera/bigretail/output/stores/sqoop/customers  \
+--append \
+--split-by CustomerID \
+--num-mappers 1 \
+--check-column ModifiedDate \
+--incremental lastmodified \
+--driver com.mysql.jdbc.Driver
+
+
+5.
+sqoop-job \
+--create loadsalesorderheader \
+-- import  \
+--connect "jdbc:mysql://sandbox-hdp.hortonworks.com:3306/adventureworks" \
+--username root \
+--password hadoop \
+--table v_salesorderheader \
+--as-parquetfile \
+--target-dir /user/cloudera/bigretail/output/stores/sqoop/salesorderheader \
+--split-by SalesOrderID \
+--num-mappers 1 \
+--check-column SalesOrderID \
+--incremental append \
+--driver com.mysql.jdbc.Driver
+
 
 
 
